@@ -5,7 +5,8 @@ body.prepend(createContainer());
 const
     textarea = body.querySelector('.textarea'),
     keyboard = body.querySelector('.keyboard'),
-    capsLockMarker = body.querySelector('.capslock > span');
+    capsLockMarker = body.querySelector('.capslock > span'),
+    arrKeys = new Set();
 
 
 
@@ -51,6 +52,17 @@ keyboard.addEventListener('mouseup', e => {
 // Keyboard events
 
 body.addEventListener('keydown', e => {
+
+    // if (e.keyCode === 16 || e.keyCode === 17) {
+    //     arrKeys.add(e.keyCode);
+    // } else {
+    //     arrKeys.clear();
+    // }
+    //
+    // if (arrKeys.has(16) && arrKeys.has(17)) {
+    //     console.log('double keys');
+    // }
+
     if ((e.keyCode > 47 && e.keyCode < 58) || (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 191) || e.keyCode === 192 || (e.keyCode > 219 && e.keyCode === 223)) {
         textarea.value += capsLockMarker.classList.contains('active') ? e.key.toUpperCase() : e.key.toLowerCase();
         boxShadow(e.key, 'off');
@@ -69,14 +81,19 @@ body.addEventListener('keydown', e => {
         textarea.value += `\n`;
         boxShadow(e.key, 'off');
     } else if (e.keyCode === 16) {
+        arrKeys.add(e.keyCode);
         capsAndShift('data-shift');
         boxShadow(e.key, 'off');
     } else if (e.keyCode === 17) {
+        arrKeys.add(e.keyCode);
         boxShadow('Ctrl', 'off');
     } else if (e.keyCode === 18) {
         boxShadow('Opt', 'off');
     } else if (e.keyCode === 91) {
         boxShadow('Cmd', 'off');
+    } else if (e.keyCode === 32) {
+        boxShadow('space', 'off');
+        textarea.value += ' ';
     } else if (e.keyCode > 36 && e.keyCode < 41) {
         switch (e.keyCode) {
             case 37:
@@ -98,18 +115,24 @@ body.addEventListener('keydown', e => {
         }
     }
 
+    if (arrKeys.has(16) && arrKeys.has(17)) {
+        console.log('+');
+    }
+
     // console.log(e.keyCode);
     // console.log(e.key);
 });
 
 body.addEventListener('keyup', e => {
-
     if (e.keyCode === 17) {
+        arrKeys.delete(e.keyCode);
         boxShadow('Ctrl', 'on');
     } else if (e.keyCode === 18) {
         boxShadow('Opt', 'on');
     } else if (e.keyCode === 91) {
         boxShadow('Cmd', 'on');
+    } else if (e.keyCode === 32) {
+        boxShadow('space', 'on');
     } else if (e.keyCode > 36 && e.keyCode < 41) {
         switch (e.keyCode) {
             case 37:
@@ -130,6 +153,7 @@ body.addEventListener('keyup', e => {
     }
 
     if (e.keyCode === 16) {
+        arrKeys.delete(e.keyCode);
         capsAndShift('data-shift');
     }
 });
@@ -179,7 +203,7 @@ function createContainer() {
     <div class="keyboard">
     
         <div class="keyboard__line-keys">
-            <div class="keyboard__key" data-caps="" data-shift="">ё</div>
+            <div class="keyboard__key" data-caps="" data-shift="" data-lang="">ё</div>
                 <div class="keyboard__key hidden" data-caps="" data-shift="">Ё</div>
             
             <div class="keyboard__key" data-shift="">1</div>
@@ -354,7 +378,7 @@ function createContainer() {
             
             <div class="keyboard__key keyboard__key_darkgrey">Cmd</div>
             
-            <div class="keyboard__key space"></div>
+            <div class="keyboard__key space">space</div>
             
             <div class="keyboard__key keyboard__key_darkgrey">Cmd</div>
             
