@@ -8,7 +8,11 @@ const
     capsLockMarker = body.querySelector('.capslock > span'),
     arrKeys = new Set();
 
-
+if (!localStorage.getItem('lang')) {
+    localStorage.setItem('lang', 'ru');
+} else if (localStorage.getItem('lang') !== 'ru') {
+    changeLanguage();
+}
 
 // Mouse events
 
@@ -32,7 +36,7 @@ keyboard.addEventListener('mousedown', e => {
         capsAndShift('data-caps');
     } else if (t.innerText === 'Shift') {
         capsAndShift('data-shift');
-    } else if (t.innerText === 'BackSpace' || t.innerText === 'Del') {
+    } else if (t.innerText === 'Backspace' || t.innerText === 'Del') {
         deleteCharacter(t.innerText);
     }
 });
@@ -52,20 +56,9 @@ keyboard.addEventListener('mouseup', e => {
 // Keyboard events
 
 body.addEventListener('keydown', e => {
-
-    // if (e.keyCode === 16 || e.keyCode === 17) {
-    //     arrKeys.add(e.keyCode);
-    // } else {
-    //     arrKeys.clear();
-    // }
-    //
-    // if (arrKeys.has(16) && arrKeys.has(17)) {
-    //     console.log('double keys');
-    // }
-
     if ((e.keyCode > 47 && e.keyCode < 58) || (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 191) || e.keyCode === 192 || (e.keyCode > 219 && e.keyCode === 223)) {
         textarea.value += capsLockMarker.classList.contains('active') ? e.key.toUpperCase() : e.key.toLowerCase();
-        boxShadow(e.key, 'off');
+        boxShadow(capsLockMarker.classList.contains('active') ? e.key.toUpperCase() : e.key.toLowerCase(), 'off');
     } else if (e.keyCode === 8 || e.keyCode === 46) {
         deleteCharacter(e.key);
         boxShadow(e.key, 'off');
@@ -116,11 +109,12 @@ body.addEventListener('keydown', e => {
     }
 
     if (arrKeys.has(16) && arrKeys.has(17)) {
-        console.log('+');
+        localStorage.getItem('lang') === 'ru' ? localStorage.setItem('lang', 'en') : localStorage.setItem('lang', 'ru');
+        changeLanguage();
     }
 
-    // console.log(e.keyCode);
-    // console.log(e.key);
+    console.log(e.keyCode);
+    console.log(e.key);
 });
 
 body.addEventListener('keyup', e => {
@@ -133,6 +127,8 @@ body.addEventListener('keyup', e => {
         boxShadow('Cmd', 'on');
     } else if (e.keyCode === 32) {
         boxShadow('space', 'on');
+    } else if (e.keyCode === 20) {
+        boxShadow('CapsLock', 'on');
     } else if (e.keyCode > 36 && e.keyCode < 41) {
         switch (e.keyCode) {
             case 37:
@@ -149,7 +145,7 @@ body.addEventListener('keyup', e => {
                 break;
         }
     } else {
-        boxShadow(e.key, 'on');
+        boxShadow(capsLockMarker.classList.contains('active') ? e.key.toUpperCase() : e.key.toLowerCase(), 'on');
     }
 
     if (e.keyCode === 16) {
@@ -165,8 +161,10 @@ body.addEventListener('keyup', e => {
 function boxShadow(key, action) {
     for (let i = 0; i < keyboard.children.length; i++) {
         for (let j = 0; j < keyboard.children[i].children.length; j++) {
-            if (keyboard.children[i].children[j].innerText === key) {
-                keyboard.children[i].children[j].style.boxShadow = action === 'off' ? '0 0 0' : '';
+            for (let k = 0; k < keyboard.children[i].children[j].children.length; k++) {
+                if (keyboard.children[i].children[j].children[k].innerText === key) {
+                    keyboard.children[i].children[j].children[k].style.boxShadow = action === 'off' ? '0 0 0' : '';
+                }
             }
         }
     }
@@ -175,8 +173,10 @@ function boxShadow(key, action) {
 function capsAndShift(dataAtribute) {
     for (let i = 0; i < keyboard.children.length; i++) {
         for (let j = 0; j < keyboard.children[i].children.length; j++) {
-            if (keyboard.children[i].children[j].hasAttribute(dataAtribute)) {
-                keyboard.children[i].children[j].classList.toggle('hidden');
+            for (let k = 0; k < keyboard.children[i].children[j].children.length; k++) {
+                if (keyboard.children[i].children[j].children[k].hasAttribute(dataAtribute)) {
+                    keyboard.children[i].children[j].children[k].classList.toggle('hidden');
+                }
             }
         }
     }
@@ -191,6 +191,18 @@ function deleteCharacter(action) {
     action.toLowerCase() === 'backspace' ? textarea.selectionEnd = position - 1 : textarea.selectionEnd = position;
 }
 
+function changeLanguage() {
+    for (let i = 0; i < keyboard.children.length; i++) {
+        for (let j = 0; j < keyboard.children[i].children.length; j++) {
+            if (keyboard.children[i].children[j].classList.contains(localStorage.getItem('lang'))) {
+                keyboard.children[i].children[j].classList.remove('hidden');
+            } else {
+                keyboard.children[i].children[j].classList.add('hidden');
+            }
+        }
+    }
+}
+
 
 
 // Add main container
@@ -203,192 +215,449 @@ function createContainer() {
     <div class="keyboard">
     
         <div class="keyboard__line-keys">
-            <div class="keyboard__key" data-caps="" data-shift="" data-lang="">ё</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Ё</div>
-            
-            <div class="keyboard__key" data-shift="">1</div>
-                <div class="keyboard__key hidden" data-shift="">!</div>
-            
-            <div class="keyboard__key" data-shift="">2</div>
-                <div class="keyboard__key hidden" data-shift="">"</div>
-            
-            <div class="keyboard__key" data-shift="">3</div>
-                <div class="keyboard__key hidden" data-shift="">№</div>
-            
-            <div class="keyboard__key" data-shift="">4</div>
-                <div class="keyboard__key hidden" data-shift="">;</div>
-            
-            <div class="keyboard__key" data-shift="">5</div>
-                <div class="keyboard__key hidden" data-shift="">%</div>
-            
-            <div class="keyboard__key" data-shift="">6</div>
-                <div class="keyboard__key hidden" data-shift="">:</div>
-            
-            <div class="keyboard__key" data-shift="">7</div>
-                <div class="keyboard__key hidden" data-shift="">?</div>
-            
-            <div class="keyboard__key" data-shift="">8</div>
-                <div class="keyboard__key hidden" data-shift="">*</div>
-            
-            <div class="keyboard__key" data-shift="">9</div>
-                <div class="keyboard__key hidden" data-shift="">(</div>
-            
-            <div class="keyboard__key" data-shift="">0</div>
-                <div class="keyboard__key hidden" data-shift="">)</div>
-            
-            <div class="keyboard__key" data-shift="">-</div>
-                <div class="keyboard__key hidden" data-shift="">_</div>
-            
-            <div class="keyboard__key" data-shift="">=</div>
-                <div class="keyboard__key hidden" data-shift="">+</div>
-            
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ё</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ё</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">\`</div>
+                <div class="keyboard__key hidden" data-caps="false" data-shift="true">~</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">1</div>
+                <div class="keyboard__key hidden" data-shift="true">!</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">1</div>
+                <div class="keyboard__key hidden" data-shift="true">!</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">2</div>
+                <div class="keyboard__key hidden" data-shift="true">"</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">2</div>
+                <div class="keyboard__key hidden" data-shift="true">@</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">3</div>
+                <div class="keyboard__key hidden" data-shift="true">№</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">3</div>
+                <div class="keyboard__key hidden" data-shift="true">#</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">4</div>
+                <div class="keyboard__key hidden" data-shift="true">;</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">4</div>
+                <div class="keyboard__key hidden" data-shift="true">$</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">5</div>
+                <div class="keyboard__key hidden" data-shift="true">%</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">5</div>
+                <div class="keyboard__key hidden" data-shift="true">%</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">6</div>
+                <div class="keyboard__key hidden" data-shift="true">:</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">6</div>
+                <div class="keyboard__key hidden" data-shift="true">^</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">7</div>
+                <div class="keyboard__key hidden" data-shift="true">?</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">7</div>
+                <div class="keyboard__key hidden" data-shift="true">&</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">8</div>
+                <div class="keyboard__key hidden" data-shift="true">*</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">8</div>
+                <div class="keyboard__key hidden" data-shift="true">*</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">9</div>
+                <div class="keyboard__key hidden" data-shift="true">(</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">9</div>
+                <div class="keyboard__key hidden" data-shift="true">(</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">0</div>
+                <div class="keyboard__key hidden" data-shift="true">)</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">0</div>
+                <div class="keyboard__key hidden" data-shift="true">)</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">-</div>
+                <div class="keyboard__key hidden" data-shift="true">_</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">-</div>
+                <div class="keyboard__key hidden" data-shift="true">_</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">=</div>
+                <div class="keyboard__key hidden" data-shift="true">+</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">=</div>
+                <div class="keyboard__key hidden" data-shift="true">+</div>
+            </span>
+            <span class="ru en">
             <div class="keyboard__key backspace keyboard__key_darkgrey">Backspace</div>
+            </span>
         </div> 
         
         
         <div class="keyboard__line-keys">
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">Tab</div>
-        
-            <div class="keyboard__key" data-caps="" data-shift="">й</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Й</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ц</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Ц</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">у</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">У</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">к</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">К</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">е</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Е</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">н</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Н</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">г</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Г</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ш</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Ш</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">щ</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Щ</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">з</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">З</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">х</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Х</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ъ</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Ъ</div>
-            
-            <div class="keyboard__key" data-shift="">\\</div>
-                <div class="keyboard__key hidden" data-shift="">/</div>
-            
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">й</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Й</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">q</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Q</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ц</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ц</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">w</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">W</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">у</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">У</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">e</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">E</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">к</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">К</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">r</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">R</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">е</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Е</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">t</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">T</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">н</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Н</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">y</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Y</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">г</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Г</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">u</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">U</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ш</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ш</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">i</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">I</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">щ</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Щ</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">o</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">O</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">з</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">З</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">p</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">P</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">х</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Х</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">[</div>
+                <div class="keyboard__key hidden" data-shift="true">{</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ъ</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ъ</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">]</div>
+                <div class="keyboard__key hidden" data-shift="true">}</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">\\</div>
+                <div class="keyboard__key hidden" data-shift="true">/</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">\\</div>
+                <div class="keyboard__key hidden" data-shift="true">|</div>
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">Del</div>
+            </span>
         </div>
         
         
         <div class="keyboard__line-keys">
+            <span class="ru en">
             <div class="keyboard__key capslock keyboard__key_darkgrey">CapsLock<span></span></div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ф</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">Ф</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ы</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">Ы</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">в</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">В</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">а</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">А</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">п</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">П</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">р</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">Р</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">о</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">О</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">л</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">Л</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">д</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">Д</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ж</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">Ж</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">э</div>
-            <div class="keyboard__key hidden" data-caps="" data-shift="">Э</div>
-            
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ф</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ф</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">a</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">A</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ы</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ы</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">s</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">S</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">в</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">В</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">d</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">D</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">а</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">А</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">f</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">F</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">п</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">П</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">g</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">G</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">р</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">Р</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">j</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">J</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">о</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">О</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">j</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">J</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">л</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">Л</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">k</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">K</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">д</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">Д</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">l</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">L</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ж</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ж</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">:</div>
+            <div class="keyboard__key hidden" data-shift="true">;</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">э</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">Э</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">'</div>
+            <div class="keyboard__key hidden" data-shift="true">"</div>
+            </span>
+            <span class="ru en">
             <div class="keyboard__key enter keyboard__key_darkgrey">Enter</div>
+            </span>
         </div>
         
         
         <div class="keyboard__line-keys">
+            <span class="ru en">
             <div class="keyboard__key shift keyboard__key_darkgrey">Shift</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">я</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Я</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ч</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Ч</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">с</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">С</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">м</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">М</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">и</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">И</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">т</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Т</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ь</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Ь</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">б</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Б</div>
-            
-            <div class="keyboard__key" data-caps="" data-shift="">ю</div>
-                <div class="keyboard__key hidden" data-caps="" data-shift="">Ю</div>
-            
-            <div class="keyboard__key" data-shift="">.</div>
-                <div class="keyboard__key hidden" data-shift="">,</div>
-            
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">я</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Я</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">z</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Z</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ч</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ч</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">x</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">X</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">с</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">С</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">c</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">C</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">м</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">М</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">v</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">V</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">и</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">И</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">b</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">B</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">т</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Т</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">n</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">N</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ь</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ь</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-caps="false" data-shift="false">m</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">M</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">б</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Б</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">,</div>
+                <div class="keyboard__key hidden" data-shift="true"><</div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-caps="false" data-shift="false">ю</div>
+                <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ю</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">.</div>
+                <div class="keyboard__key hidden" data-shift="true">></div>
+            </span>
+            <span class="ru">
+            <div class="keyboard__key" data-shift="false">.</div>
+                <div class="keyboard__key hidden" data-shift="true">,</div>
+            </span>
+            <span class="en hidden">
+            <div class="keyboard__key" data-shift="false">/</div>
+                <div class="keyboard__key hidden" data-shift="true">?</div>
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">&#9650;</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key shift keyboard__key_darkgrey">Shift</div>
+            </span>
         </div>
         
         
         <div class="keyboard__line-keys">
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">Ctrl</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">Opt</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">Cmd</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key space">space</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">Cmd</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">&#9668;</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">&#9660;</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">&#9658;</div>
-            
+            </span>
+            <span class="ru en">
             <div class="keyboard__key keyboard__key_darkgrey">Ctrl</div>
+            </span>
         </div>
     </div>
     <div class="description">
