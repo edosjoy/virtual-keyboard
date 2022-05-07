@@ -589,9 +589,9 @@ keyboard.addEventListener('mousedown', e => {
     t.style.boxShadow = '0 0 0';
 
     if (t.classList.contains('keyboard__key') && !t.classList.contains('keyboard__key_darkgrey') && !t.classList.contains('space')) {
-        textarea.value += t.innerText;
+        addSymbol(textarea.selectionEnd, t.innerText);
     } else if (t.innerText === '▲' || t.innerText === '◄' || t.innerText === '▼' || t.innerText === '►') {
-        textarea.value += t.innerText;
+        addSymbol(textarea.selectionEnd, t.innerText);
     } else if (t.innerText === 'Enter') {
         textarea.value += `\n`;
     } else if (t.innerText === 'Tab') {
@@ -623,63 +623,65 @@ keyboard.addEventListener('mouseup', e => {
 // Keyboard events
 
 body.addEventListener('keydown', e => {
+    e.preventDefault();
+
     if (e.keyCode > 47 && e.keyCode < 58) {
         if (localStorage.getItem('lang') === 'ru') {
             if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
-                textarea.value += objectKeys[e.keyCode].ru.shift;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].ru.shift);
                 boxShadow(objectKeys[e.keyCode].ru.shift, 'off');
             } else if (capsLockMarker.classList.contains('active')) {
-                textarea.value += objectKeys[e.keyCode].ru.caps;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].ru.caps);
                 boxShadow(objectKeys[e.keyCode].ru.caps, 'off');
             } else if (arrKeys.has(16)) {
-                textarea.value += objectKeys[e.keyCode].ru.shift;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].ru.shift);
                 boxShadow(objectKeys[e.keyCode].ru.shift, 'off');
             } else {
-                textarea.value += objectKeys[e.keyCode].ru.default;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].ru.default);
                 boxShadow(objectKeys[e.keyCode].ru.default, 'off');
             }
         } else {
             if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
-                textarea.value += objectKeys[e.keyCode].en.shift;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].en.shift);
                 boxShadow(objectKeys[e.keyCode].en.shift, 'off');
             } else if (capsLockMarker.classList.contains('active')) {
-                textarea.value += objectKeys[e.keyCode].en.caps;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].en.caps);
                 boxShadow(objectKeys[e.keyCode].en.caps, 'off');
             } else if (arrKeys.has(16)) {
-                textarea.value += objectKeys[e.keyCode].en.shift;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].en.shift);
                 boxShadow(objectKeys[e.keyCode].en.shift, 'off');
             } else {
-                textarea.value += objectKeys[e.keyCode].en.default;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].en.default);
                 boxShadow(objectKeys[e.keyCode].en.default, 'off');
             }
         }
     } else if ((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 192) || e.keyCode === 192 || (e.keyCode > 218 && e.keyCode < 223)) {
         if (localStorage.getItem('lang') === 'ru') {
             if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
-                textarea.value += objectKeys[e.keyCode].ru.default;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].ru.default);
                 boxShadow(objectKeys[e.keyCode].ru.default, 'off');
             } else if (capsLockMarker.classList.contains('active')) {
-                textarea.value += objectKeys[e.keyCode].ru.caps;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].ru.caps);
                 boxShadow(objectKeys[e.keyCode].ru.caps, 'off');
             } else if (arrKeys.has(16)) {
-                textarea.value += objectKeys[e.keyCode].ru.shift;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].ru.shift);
                 boxShadow(objectKeys[e.keyCode].ru.shift, 'off');
             } else {
-                textarea.value += objectKeys[e.keyCode].ru.default;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].ru.default);
                 boxShadow(objectKeys[e.keyCode].ru.default, 'off');
             }
         } else {
             if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
-                textarea.value += objectKeys[e.keyCode].en.default;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].en.default);
                 boxShadow(objectKeys[e.keyCode].en.default, 'off');
             } else if (capsLockMarker.classList.contains('active')) {
-                textarea.value += objectKeys[e.keyCode].en.caps;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].en.caps);
                 boxShadow(objectKeys[e.keyCode].en.caps, 'off');
             } else if (arrKeys.has(16)) {
-                textarea.value += objectKeys[e.keyCode].en.shift;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].en.shift);
                 boxShadow(objectKeys[e.keyCode].en.shift, 'off');
             } else {
-                textarea.value += objectKeys[e.keyCode].en.default;
+                addSymbol(textarea.selectionEnd, objectKeys[e.keyCode].en.default);
                 boxShadow(objectKeys[e.keyCode].en.default, 'off');
             }
         }
@@ -739,8 +741,8 @@ body.addEventListener('keydown', e => {
         changeLanguage();
     }
 
-    // console.log(e.keyCode);
-    // console.log(e.key);
+    console.log(e.keyCode);
+    console.log(e.key);
 });
 
 body.addEventListener('keyup', e => {
@@ -880,6 +882,14 @@ function changeLanguage() {
             }
         }
     }
+}
+
+function addSymbol(position, symbol) {
+    let arrTextareaValue = [];
+    arrTextareaValue = textarea.value.split('');
+    arrTextareaValue.splice(position, 0, symbol);
+    textarea.value = arrTextareaValue.join('');
+    textarea.selectionEnd = position + 1;
 }
 
 
