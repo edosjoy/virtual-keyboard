@@ -741,8 +741,8 @@ body.addEventListener('keydown', e => {
         changeLanguage();
     }
 
-    console.log(e.keyCode);
-    console.log(e.key);
+    // console.log(e.keyCode);
+    // console.log(e.key);
 });
 
 body.addEventListener('keyup', e => {
