@@ -8,6 +8,573 @@ const
     capsLockMarker = body.querySelector('.capslock > span'),
     arrKeys = new Set();
 
+const objectKeys = {
+    192: {
+        ru: {
+            default: 'ё',
+            shift: 'Ё',
+            caps: 'Ё',
+        },
+        en: {
+            default: '`',
+            shift: '~',
+            caps: '`',
+        },
+    },
+    49: {
+        ru: {
+            default: '1',
+            shift: '!',
+            caps: '1',
+        },
+        en: {
+            default: '1',
+            shift: '!',
+            caps: '1',
+        },
+    },
+    50: {
+        ru: {
+            default: '2',
+            shift: '"',
+            caps: '2',
+        },
+        en: {
+            default: '2',
+            shift: '@',
+            caps: '2',
+        },
+    },
+    51: {
+        ru: {
+            default: '3',
+            shift: '№',
+            caps: '3',
+        },
+        en: {
+            default: '3',
+            shift: '#',
+            caps: '3',
+        },
+    },
+    52: {
+        ru: {
+            default: '4',
+            shift: ';',
+            caps: '4',
+        },
+        en: {
+            default: '4',
+            shift: '$',
+            caps: '4',
+        },
+    },
+    53: {
+        ru: {
+            default: '5',
+            shift: '%',
+            caps: '5',
+        },
+        en: {
+            default: '5',
+            shift: '%',
+            caps: '5',
+        },
+    },
+    54: {
+        ru: {
+            default: '6',
+            shift: ':',
+            caps: '6',
+        },
+        en: {
+            default: '6',
+            shift: '^',
+            caps: '6',
+        },
+    },
+    55: {
+        ru: {
+            default: '7',
+            shift: '?',
+            caps: '7',
+        },
+        en: {
+            default: '7',
+            shift: '&',
+            caps: '7',
+        },
+    },
+    56: {
+        ru: {
+            default: '8',
+            shift: '*',
+            caps: '8',
+        },
+        en: {
+            default: '8',
+            shift: '*',
+            caps: '8',
+        },
+    },
+    57: {
+        ru: {
+            default: '9',
+            shift: '(',
+            caps: '9',
+        },
+        en: {
+            default: '9',
+            shift: '(',
+            caps: '9',
+        },
+    },
+    48: {
+        ru: {
+            default: '0',
+            shift: ')',
+            caps: '0',
+        },
+        en: {
+            default: '0',
+            shift: ')',
+            caps: '0',
+        },
+    },
+    189: {
+        ru: {
+            default: '-',
+            shift: '_',
+            caps: '-',
+        },
+        en: {
+            default: '-',
+            shift: '_',
+            caps: '-',
+        },
+    },
+    187: {
+        ru: {
+            default: '=',
+            shift: '+',
+            caps: '=',
+        },
+        en: {
+            default: '=',
+            shift: '+',
+            caps: '=',
+        },
+    },
+    81: {
+        ru: {
+            default: 'й',
+            shift: 'Й',
+            caps: 'Й',
+        },
+        en: {
+            default: 'q',
+            shift: 'Q',
+            caps: 'Q',
+        },
+    },
+    87: {
+        ru: {
+            default: 'ц',
+            shift: 'Ц',
+            caps: 'Ц',
+        },
+        en: {
+            default: 'ц',
+            shift: 'Ц',
+            caps: 'Ц',
+        },
+    },
+    69: {
+        ru: {
+            default: 'у',
+            shift: 'У',
+            caps: 'У',
+        },
+        en: {
+            default: 'e',
+            shift: 'E',
+            caps: 'E',
+        },
+    },
+    82: {
+        ru: {
+            default: 'к',
+            shift: 'К',
+            caps: 'К',
+        },
+        en: {
+            default: 'r',
+            shift: 'R',
+            caps: 'R',
+        },
+    },
+    84: {
+        ru: {
+            default: 'е',
+            shift: 'Е',
+            caps: 'Е',
+        },
+        en: {
+            default: 't',
+            shift: 'T',
+            caps: 'T',
+        },
+    },
+    89: {
+        ru: {
+            default: 'н',
+            shift: 'Н',
+            caps: 'Н',
+        },
+        en: {
+            default: 'y',
+            shift: 'Y',
+            caps: 'Y',
+        },
+    },
+    85: {
+        ru: {
+            default: 'г',
+            shift: 'Г',
+            caps: 'Г',
+        },
+        en: {
+            default: 'u',
+            shift: 'U',
+            caps: 'U',
+        },
+    },
+    73: {
+        ru: {
+            default: 'ш',
+            shift: 'Ш',
+            caps: 'Ш',
+        },
+        en: {
+            default: 'i',
+            shift: 'I',
+            caps: 'I',
+        },
+    },
+    79: {
+        ru: {
+            default: 'щ',
+            shift: 'Щ',
+            caps: 'Щ',
+        },
+        en: {
+            default: 'o',
+            shift: 'O',
+            caps: 'O',
+        },
+    },
+    80: {
+        ru: {
+            default: 'з',
+            shift: 'З',
+            caps: 'З',
+        },
+        en: {
+            default: 'p',
+            shift: 'P',
+            caps: 'P',
+        },
+    },
+    219: {
+        ru: {
+            default: 'х',
+            shift: 'Х',
+            caps: 'Х',
+        },
+        en: {
+            default: '[',
+            shift: '{',
+            caps: '[',
+        },
+    },
+    221: {
+        ru: {
+            default: 'ъ',
+            shift: 'Ъ',
+            caps: 'Ъ',
+        },
+        en: {
+            default: ']',
+            shift: '}',
+            caps: ']',
+        },
+    },
+    65: {
+        ru: {
+            default: 'ф',
+            shift: 'Ф',
+            caps: 'Ф',
+        },
+        en: {
+            default: 'a',
+            shift: 'A',
+            caps: 'A',
+        },
+    },
+    83: {
+        ru: {
+            default: 'ы',
+            shift: 'Ы',
+            caps: 'Ы',
+        },
+        en: {
+            default: 's',
+            shift: 'S',
+            caps: 'S',
+        },
+    },
+    68: {
+        ru: {
+            default: 'в',
+            shift: 'В',
+            caps: 'В',
+        },
+        en: {
+            default: 'd',
+            shift: 'D',
+            caps: 'D',
+        },
+    },
+    70: {
+        ru: {
+            default: 'а',
+            shift: 'А',
+            caps: 'А',
+        },
+        en: {
+            default: 'f',
+            shift: 'F',
+            caps: 'F',
+        },
+    },
+    71: {
+        ru: {
+            default: 'п',
+            shift: 'П',
+            caps: 'П',
+        },
+        en: {
+            default: 'g',
+            shift: 'G',
+            caps: 'G',
+        },
+    },
+    72: {
+        ru: {
+            default: 'р',
+            shift: 'Р',
+            caps: 'Р',
+        },
+        en: {
+            default: 'h',
+            shift: 'H',
+            caps: 'H',
+        },
+    },
+    74: {
+        ru: {
+            default: 'о',
+            shift: 'О',
+            caps: 'О',
+        },
+        en: {
+            default: 'j',
+            shift: 'J',
+            caps: 'J',
+        },
+    },
+    75: {
+        ru: {
+            default: 'л',
+            shift: 'Л',
+            caps: 'Л',
+        },
+        en: {
+            default: 'k',
+            shift: 'K',
+            caps: 'K',
+        },
+    },
+    76: {
+        ru: {
+            default: 'д',
+            shift: 'Д',
+            caps: 'Д',
+        },
+        en: {
+            default: 'l',
+            shift: 'L',
+            caps: 'L',
+        },
+    },
+    186: {
+        ru: {
+            default: 'ж',
+            shift: 'Ж',
+            caps: 'Ж',
+        },
+        en: {
+            default: ';',
+            shift: ':',
+            caps: ';',
+        },
+    },
+    222: {
+        ru: {
+            default: 'э',
+            shift: 'Э',
+            caps: 'Э',
+        },
+        en: {
+            default: '\'',
+            shift: '"',
+            caps: '\'',
+        },
+    },
+    90: {
+        ru: {
+            default: 'я',
+            shift: 'Я',
+            caps: 'Я',
+        },
+        en: {
+            default: 'z',
+            shift: 'Z',
+            caps: 'Z',
+        },
+    },
+    88: {
+        ru: {
+            default: 'ч',
+            shift: 'Ч',
+            caps: 'Ч',
+        },
+        en: {
+            default: 'x',
+            shift: 'X',
+            caps: 'X',
+        },
+    },
+    67: {
+        ru: {
+            default: 'с',
+            shift: 'С',
+            caps: 'С',
+        },
+        en: {
+            default: 'c',
+            shift: 'C',
+            caps: 'C',
+        },
+    },
+    86: {
+        ru: {
+            default: 'м',
+            shift: 'М',
+            caps: 'М',
+        },
+        en: {
+            default: 'v',
+            shift: 'V',
+            caps: 'V',
+        },
+    },
+    66: {
+        ru: {
+            default: 'и',
+            shift: 'И',
+            caps: 'И',
+        },
+        en: {
+            default: 'b',
+            shift: 'B',
+            caps: 'B',
+        },
+    },
+    78: {
+        ru: {
+            default: 'т',
+            shift: 'Т',
+            caps: 'Т',
+        },
+        en: {
+            default: 'n',
+            shift: 'N',
+            caps: 'N',
+        },
+    },
+    77: {
+        ru: {
+            default: 'ь',
+            shift: 'Ь',
+            caps: 'Ь',
+        },
+        en: {
+            default: 'm',
+            shift: 'M',
+            caps: 'M',
+        },
+    },
+    188: {
+        ru: {
+            default: 'б',
+            shift: 'Б',
+            caps: 'Б',
+        },
+        en: {
+            default: ',',
+            shift: '<',
+            caps: ',',
+        },
+    },
+    190: {
+        ru: {
+            default: 'ю',
+            shift: 'Ю',
+            caps: 'Ю',
+        },
+        en: {
+            default: '.',
+            shift: '>',
+            caps: '.',
+        },
+    },
+    191: {
+        ru: {
+            default: '.',
+            shift: ',',
+            caps: '.',
+        },
+        en: {
+            default: '/',
+            shift: '?',
+            caps: '/',
+        },
+    },
+    220: {
+        ru: {
+            default: '\\',
+            shift: '/',
+            caps: '\\',
+        },
+        en: {
+            default: '\\',
+            shift: '|',
+            caps: '\\',
+        },
+    },
+}
+
 if (!localStorage.getItem('lang')) {
     localStorage.setItem('lang', 'ru');
 } else if (localStorage.getItem('lang') !== 'ru') {
@@ -56,9 +623,66 @@ keyboard.addEventListener('mouseup', e => {
 // Keyboard events
 
 body.addEventListener('keydown', e => {
-    if ((e.keyCode > 47 && e.keyCode < 58) || (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 191) || e.keyCode === 192 || (e.keyCode > 219 && e.keyCode === 223)) {
-        textarea.value += capsLockMarker.classList.contains('active') ? e.key.toUpperCase() : e.key.toLowerCase();
-        boxShadow(capsLockMarker.classList.contains('active') ? e.key.toUpperCase() : e.key.toLowerCase(), 'off');
+    if (e.keyCode > 47 && e.keyCode < 58) {
+        if (localStorage.getItem('lang') === 'ru') {
+            if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
+                textarea.value += objectKeys[e.keyCode].ru.shift;
+                boxShadow(objectKeys[e.keyCode].ru.shift, 'off');
+            } else if (capsLockMarker.classList.contains('active')) {
+                textarea.value += objectKeys[e.keyCode].ru.caps;
+                boxShadow(objectKeys[e.keyCode].ru.caps, 'off');
+            } else if (arrKeys.has(16)) {
+                textarea.value += objectKeys[e.keyCode].ru.shift;
+                boxShadow(objectKeys[e.keyCode].ru.shift, 'off');
+            } else {
+                textarea.value += objectKeys[e.keyCode].ru.default;
+                boxShadow(objectKeys[e.keyCode].ru.default, 'off');
+            }
+        } else {
+            if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
+                textarea.value += objectKeys[e.keyCode].en.shift;
+                boxShadow(objectKeys[e.keyCode].en.shift, 'off');
+            } else if (capsLockMarker.classList.contains('active')) {
+                textarea.value += objectKeys[e.keyCode].en.caps;
+                boxShadow(objectKeys[e.keyCode].en.caps, 'off');
+            } else if (arrKeys.has(16)) {
+                textarea.value += objectKeys[e.keyCode].en.shift;
+                boxShadow(objectKeys[e.keyCode].en.shift, 'off');
+            } else {
+                textarea.value += objectKeys[e.keyCode].en.default;
+                boxShadow(objectKeys[e.keyCode].en.default, 'off');
+            }
+        }
+    } else if ((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 191) || e.keyCode === 192 || (e.keyCode > 219 && e.keyCode < 223)) {
+        if (localStorage.getItem('lang') === 'ru') {
+            if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
+                textarea.value += objectKeys[e.keyCode].ru.default;
+                boxShadow(objectKeys[e.keyCode].ru.default, 'off');
+            } else if (capsLockMarker.classList.contains('active')) {
+                textarea.value += objectKeys[e.keyCode].ru.caps;
+                boxShadow(objectKeys[e.keyCode].ru.caps, 'off');
+            } else if (arrKeys.has(16)) {
+                textarea.value += objectKeys[e.keyCode].ru.shift;
+                boxShadow(objectKeys[e.keyCode].ru.shift, 'off');
+            } else {
+                textarea.value += objectKeys[e.keyCode].ru.default;
+                boxShadow(objectKeys[e.keyCode].ru.default, 'off');
+            }
+        } else {
+            if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
+                textarea.value += objectKeys[e.keyCode].en.default;
+                boxShadow(objectKeys[e.keyCode].en.default, 'off');
+            } else if (capsLockMarker.classList.contains('active')) {
+                textarea.value += objectKeys[e.keyCode].en.caps;
+                boxShadow(objectKeys[e.keyCode].en.caps, 'off');
+            } else if (arrKeys.has(16)) {
+                textarea.value += objectKeys[e.keyCode].en.shift;
+                boxShadow(objectKeys[e.keyCode].en.shift, 'off');
+            } else {
+                textarea.value += objectKeys[e.keyCode].en.default;
+                boxShadow(objectKeys[e.keyCode].en.default, 'off');
+            }
+        }
     } else if (e.keyCode === 8 || e.keyCode === 46) {
         deleteCharacter(e.key);
         boxShadow(e.key, 'off');
@@ -118,7 +742,51 @@ body.addEventListener('keydown', e => {
 });
 
 body.addEventListener('keyup', e => {
-    if (e.keyCode === 17) {
+    if (e.keyCode > 47 && e.keyCode < 58) {
+        if (localStorage.getItem('lang') === 'ru') {
+            if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
+                boxShadow(objectKeys[e.keyCode].ru.shift, 'on');
+            } else if (capsLockMarker.classList.contains('active')) {
+                boxShadow(objectKeys[e.keyCode].ru.caps, 'on');
+            } else if (arrKeys.has(16)) {
+                boxShadow(objectKeys[e.keyCode].ru.shift, 'on');
+            } else {
+                boxShadow(objectKeys[e.keyCode].ru.default, 'on');
+            }
+        } else {
+            if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
+                boxShadow(objectKeys[e.keyCode].en.shift, 'on');
+            } else if (capsLockMarker.classList.contains('active')) {
+                boxShadow(objectKeys[e.keyCode].en.caps, 'om');
+            } else if (arrKeys.has(16)) {
+                boxShadow(objectKeys[e.keyCode].en.shift, 'on');
+            } else {
+                boxShadow(objectKeys[e.keyCode].en.default, 'on');
+            }
+        }
+    } else if ((e.keyCode > 47 && e.keyCode < 58) || (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 191) || e.keyCode === 192 || (e.keyCode > 219 && e.keyCode < 223)) {
+        if (localStorage.getItem('lang') === 'ru') {
+            if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
+                boxShadow(objectKeys[e.keyCode].ru.default, 'on');
+            } else if (capsLockMarker.classList.contains('active')) {
+                boxShadow(objectKeys[e.keyCode].ru.caps, 'on');
+            } else if (arrKeys.has(16)) {
+                boxShadow(objectKeys[e.keyCode].ru.shift, 'on');
+            } else {
+                boxShadow(objectKeys[e.keyCode].ru.default, 'on');
+            }
+        } else {
+            if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
+                boxShadow(objectKeys[e.keyCode].en.default, 'on');
+            } else if (capsLockMarker.classList.contains('active')) {
+                boxShadow(objectKeys[e.keyCode].en.caps, 'om');
+            } else if (arrKeys.has(16)) {
+                boxShadow(objectKeys[e.keyCode].en.shift, 'on');
+            } else {
+                boxShadow(objectKeys[e.keyCode].en.default, 'on');
+            }
+        }
+    } else if (e.keyCode === 17) {
         arrKeys.delete(e.keyCode);
         boxShadow('Ctrl', 'on');
     } else if (e.keyCode === 18) {
@@ -129,6 +797,12 @@ body.addEventListener('keyup', e => {
         boxShadow('space', 'on');
     } else if (e.keyCode === 20) {
         boxShadow('CapsLock', 'on');
+    } else if (e.keyCode === 8) {
+        boxShadow('Backspace', 'on');
+    } else if (e.keyCode === 46) {
+        boxShadow('Del', 'on');
+    } else if (e.keyCode === 9) {
+        boxShadow('Tab', 'on');
     } else if (e.keyCode > 36 && e.keyCode < 41) {
         switch (e.keyCode) {
             case 37:
@@ -144,13 +818,12 @@ body.addEventListener('keyup', e => {
                 boxShadow('▼', 'on');
                 break;
         }
-    } else {
-        boxShadow(capsLockMarker.classList.contains('active') ? e.key.toUpperCase() : e.key.toLowerCase(), 'on');
     }
 
     if (e.keyCode === 16) {
         arrKeys.delete(e.keyCode);
         capsAndShift('data-shift');
+        boxShadow('Shift', 'on');
     }
 });
 
