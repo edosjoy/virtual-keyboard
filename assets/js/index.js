@@ -184,9 +184,9 @@ const objectKeys = {
             caps: 'Ц',
         },
         en: {
-            default: 'ц',
-            shift: 'Ц',
-            caps: 'Ц',
+            default: 'w',
+            shift: 'W',
+            caps: 'W',
         },
     },
     69: {
@@ -653,7 +653,7 @@ body.addEventListener('keydown', e => {
                 boxShadow(objectKeys[e.keyCode].en.default, 'off');
             }
         }
-    } else if ((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 191) || e.keyCode === 192 || (e.keyCode > 219 && e.keyCode < 223)) {
+    } else if ((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 192) || e.keyCode === 192 || (e.keyCode > 218 && e.keyCode < 223)) {
         if (localStorage.getItem('lang') === 'ru') {
             if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
                 textarea.value += objectKeys[e.keyCode].ru.default;
@@ -708,6 +708,8 @@ body.addEventListener('keydown', e => {
         boxShadow('Opt', 'off');
     } else if (e.keyCode === 91) {
         boxShadow('Cmd', 'off');
+    } else if (e.keyCode === 93) {
+        boxShadow('Cmd', 'off');
     } else if (e.keyCode === 32) {
         boxShadow('space', 'off');
         textarea.value += ' ';
@@ -737,8 +739,8 @@ body.addEventListener('keydown', e => {
         changeLanguage();
     }
 
-    console.log(e.keyCode);
-    console.log(e.key);
+    // console.log(e.keyCode);
+    // console.log(e.key);
 });
 
 body.addEventListener('keyup', e => {
@@ -764,7 +766,7 @@ body.addEventListener('keyup', e => {
                 boxShadow(objectKeys[e.keyCode].en.default, 'on');
             }
         }
-    } else if ((e.keyCode > 47 && e.keyCode < 58) || (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 191) || e.keyCode === 192 || (e.keyCode > 219 && e.keyCode < 223)) {
+    } else if ((e.keyCode > 47 && e.keyCode < 58) || (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 185 && e.keyCode < 192) || e.keyCode === 192 || (e.keyCode > 218 && e.keyCode < 223)) {
         if (localStorage.getItem('lang') === 'ru') {
             if (capsLockMarker.classList.contains('active') && arrKeys.has(16)) {
                 boxShadow(objectKeys[e.keyCode].ru.default, 'on');
@@ -793,6 +795,8 @@ body.addEventListener('keyup', e => {
         boxShadow('Opt', 'on');
     } else if (e.keyCode === 91) {
         boxShadow('Cmd', 'on');
+    } else if (e.keyCode === 93) {
+        boxShadow('Cmd', 'on');
     } else if (e.keyCode === 32) {
         boxShadow('space', 'on');
     } else if (e.keyCode === 20) {
@@ -818,6 +822,8 @@ body.addEventListener('keyup', e => {
                 boxShadow('▼', 'on');
                 break;
         }
+    } else {
+        boxShadow(e.key, 'on');
     }
 
     if (e.keyCode === 16) {
@@ -1329,7 +1335,7 @@ function createContainer() {
             <div class="keyboard__key keyboard__key_darkgrey">&#9658;</div>
             </span>
             <span class="ru en">
-            <div class="keyboard__key keyboard__key_darkgrey">Ctrl</div>
+            <div class="keyboard__key keyboard__key_darkgrey">Opt</div>
             </span>
         </div>
     </div>
