@@ -1177,8 +1177,8 @@ function createContainer() {
             <div class="keyboard__key hidden" data-caps="true" data-shift="true">Р</div>
             </span>
             <span class="en hidden">
-            <div class="keyboard__key" data-caps="false" data-shift="false">j</div>
-            <div class="keyboard__key hidden" data-caps="true" data-shift="true">J</div>
+            <div class="keyboard__key" data-caps="false" data-shift="false">h</div>
+            <div class="keyboard__key hidden" data-caps="true" data-shift="true">H</div>
             </span>
             <span class="ru">
             <div class="keyboard__key" data-caps="false" data-shift="false">о</div>
@@ -1209,8 +1209,8 @@ function createContainer() {
             <div class="keyboard__key hidden" data-caps="true" data-shift="true">Ж</div>
             </span>
             <span class="en hidden">
-            <div class="keyboard__key" data-shift="false">:</div>
-            <div class="keyboard__key hidden" data-shift="true">;</div>
+            <div class="keyboard__key" data-shift="false">;</div>
+            <div class="keyboard__key hidden" data-shift="true">:</div>
             </span>
             <span class="ru">
             <div class="keyboard__key" data-caps="false" data-shift="false">э</div>
