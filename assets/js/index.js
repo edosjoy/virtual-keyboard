@@ -593,11 +593,11 @@ keyboard.addEventListener('mousedown', e => {
     } else if (t.innerText === '▲' || t.innerText === '◄' || t.innerText === '▼' || t.innerText === '►') {
         addSymbol(textarea.selectionEnd, t.innerText);
     } else if (t.innerText === 'Enter') {
-        textarea.value += `\n`;
+        addSymbol(textarea.selectionEnd, `\n`);
     } else if (t.innerText === 'Tab') {
-        textarea.value += '    ';
+        addSymbol(textarea.selectionEnd, '    ');
     } else if (t.classList.contains('space')) {
-        textarea.value += ' ';
+        addSymbol(textarea.selectionEnd, ' ');
     } else if (t.innerText === 'CapsLock') {
         capsLockMarker.classList.toggle('active');
         capsAndShift('data-caps');
@@ -690,14 +690,14 @@ body.addEventListener('keydown', e => {
         boxShadow(e.key, 'off');
     } else if (e.keyCode === 9) {
         e.preventDefault();
-        textarea.value += '    ';
+        addSymbol(textarea.selectionEnd, `    `);
         boxShadow(e.key, 'off');
     } else if (e.keyCode === 20) {
         capsLockMarker.classList.toggle('active');
         capsAndShift('data-caps');
         boxShadow(e.key, 'off');
     } else if (e.keyCode === 13) {
-        textarea.value += `\n`;
+        addSymbol(textarea.selectionEnd, `\n`);
         boxShadow(e.key, 'off');
     } else if (e.keyCode === 16) {
         arrKeys.add(e.keyCode);
@@ -714,23 +714,23 @@ body.addEventListener('keydown', e => {
         boxShadow('Cmd', 'off');
     } else if (e.keyCode === 32) {
         boxShadow('space', 'off');
-        textarea.value += ' ';
+        addSymbol(textarea.selectionEnd, ' ');
     } else if (e.keyCode > 36 && e.keyCode < 41) {
         switch (e.keyCode) {
             case 37:
-                textarea.value += '◄';
+                addSymbol(textarea.selectionEnd, '◄');
                 boxShadow('◄', 'off');
                 break;
             case 38:
-                textarea.value += '▲';
+                addSymbol(textarea.selectionEnd, '▲');
                 boxShadow('▲', 'off');
                 break;
             case 39:
-                textarea.value += '►';
+                addSymbol(textarea.selectionEnd, '►');
                 boxShadow('►', 'off');
                 break;
             case 40:
-                textarea.value += '▼';
+                addSymbol(textarea.selectionEnd, '▼');
                 boxShadow('▼', 'off');
                 break;
         }
@@ -889,7 +889,7 @@ function addSymbol(position, symbol) {
     arrTextareaValue = textarea.value.split('');
     arrTextareaValue.splice(position, 0, symbol);
     textarea.value = arrTextareaValue.join('');
-    textarea.selectionEnd = position + 1;
+    textarea.selectionEnd = symbol === '    ' ? position + 4 : position + 1;
 }
 
 
