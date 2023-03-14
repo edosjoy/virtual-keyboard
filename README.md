@@ -1,6 +1,6 @@
 # Virtual Keyboard
 
-Клавиатура: https://edosjoy.github.io/virtual-keyboard/
+Deploy: https://edosjoy.github.io/virtual-keyboard/
 
 Одно из учебных заданий.
 
